@@ -3,7 +3,7 @@ import numpy as np
 
 CAM_INDEX = 1
 FRAME_W, FRAME_H = 640, 480
-AREA_MIN = 600
+AREA_MIN = 2000
 
 BLUE_LOWER = np.array([95, 100, 80], dtype=np.uint8)
 BLUE_UPPER = np.array([130, 255, 255], dtype=np.uint8)
@@ -27,6 +27,10 @@ while True:
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
+    third = FRAME_W // 3
+    cv2.line(frame, (third, 0), (third, FRAME_H), (255, 255, 255), 1)
+    cv2.line(frame, (2 * third, 0), (2 * third, FRAME_H), (255, 255, 255), 1)
+
     mask_blue = cv2.inRange(hsv, BLUE_LOWER, BLUE_UPPER)
     mask_green = cv2.inRange(hsv, GREEN_LOWER, GREEN_UPPER)
     mask_r1 = cv2.inRange(hsv, RED_LOWER1, RED_UPPER1)
@@ -39,9 +43,17 @@ while True:
             if cv2.contourArea(cnt) < AREA_MIN:
                 continue
             x, y, w, h = cv2.boundingRect(cnt)
+            center_x = x + w // 2
+            if color_name == "Gruen":
+                third = FRAME_W // 3
+                if center_x < third:
+                    print("L")
+                elif center_x < 2 * third:
+                    print("Z")
+                else:
+                    print("R")
             cv2.rectangle(frame, (x, y), (x + w, y + h), box_color, 2)
-            cv2.putText(frame, color_name, (x, y - 8), cv2.FONT_HERSHEY_SIMPLEX,
-                        0.6, box_color, 2, cv2.LINE_AA)
+            cv2.putText(frame, color_name, (x, y - 8), cv2.FONT_HERSHEY_SIMPLEX, 0.6, box_color, 2, cv2.LINE_AA)
 
     detect_and_draw(mask_blue, "Blau", (255, 0, 0))
     detect_and_draw(mask_green, "Gruen", (0, 255, 0))
