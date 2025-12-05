@@ -3,9 +3,9 @@ import os, sys
 sys.path.append("/usr/lib")
 import _kipr as k
 
-def stop():
+def stop(speed):
     for i in range(4):
-        k.motor(i, 0)
+        k.motor(i, speed)
 
 def forward(speed):
     k.motor(0, -speed)
@@ -25,26 +25,39 @@ def turn_right(speed):
     k.motor(2, speed)
     k.motor(3, speed)
 
+def backward(speed):
+    k.motor(0, speed)
+    k.motor(1, speed)
+    k.motor(2, -speed)
+    k.motor(3, -speed)
+
 def main():
     speed = 35   
-    threshold = 3800   
+    threshold = 3800   # white<3800 | black>=3800  
 
     while True: 
         left = k.analog(1)    # linker Tophat
         right = k.analog(0)   # rechter Tophat
-
-
-        print("L:", left, "R:", right)  # Debug-Ausgabe
+        
+        print("L:", left, "R:", right)  # Values
 
         if left > threshold and right > threshold:
-            forward(speed)
-        elif left <= threshold and right > threshold:
-            turn_right(speed)    # Hier habe ich die Richtung umgetauscht
-        elif right <= threshold and left > threshold:
-            turn_left(speed)    # Hier hab ich left eingetragen statt left
-        else:
-            # Der Roboter fährt jetzt geradeaus wenn beide Sensoren
-            # einen Wert für Weiß liefern.
-            forward(speed);
-
+            for i in range(0, 40, 1):
+                forward(i)
+        elif left < threshold and right >= threshold:
+            for i in range(40, 20, -1):    
+                stop(i)
+            for i in range(0, 40, 1):    
+                turn_right(i)  
+        elif right < threshold and left >= threshold:
+            for i in range(40, 20, -1):
+                stop(i)    
+            for i in range(0, 40, 1):                
+                turn_left(i)
+        elif left < threshold and right < threshold:
+            for i in range(40, 0, -1):    
+                stop(i)
+            backward(speed)
+            
+    
 main()
