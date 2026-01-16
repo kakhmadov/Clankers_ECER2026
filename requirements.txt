@@ -1,17 +1,25 @@
-# Hauptabhängigkeiten
+# requirements.txt - Für reine Python Entwicklung
+# Simulation & Robotik
 numpy>=1.24.0
-opencv-python>=4.8.0    # Für Computer Vision (falls benötigt)
-pyserial>=3.5           # Für reale Hardware später
-pyyaml>=6.0             # Konfigurationsdateien
+opencv-python>=4.8.0        # Computer Vision
+pyserial>=3.5               # Falls ihr echte Hardware ansteuert
+matplotlib>=3.7.0           # Visualisierung
+
+# KI/ML (optional, für fortgeschrittene Navigation)
+scikit-learn>=1.3.0
+opencv-contrib-python       # Erweiterte CV Features
+
+# Web/API (falls benötigt)
+flask>=2.3.0                # Web Interface
+fastapi>=0.100.0            # Moderne API
 
 # Entwicklung
 pytest>=7.4.0
-pytest-cov>=4.1.0
-black>=23.0             # Code Formatter
-flake8>=6.0             # Linter
-mypy>=1.5.0             # Type Checking
+black>=23.0
+flake8>=6.0
 pre-commit>=3.4.0
+jupyter>=1.0.0              # Für Experimente
+ipython>=8.0.0
 
 # Dokumentation
 sphinx>=7.0
-sphinx-rtd-theme>=1.3
