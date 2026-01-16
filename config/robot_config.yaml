@@ -1,0 +1,35 @@
+# Roboterkonfiguration für ECER 2026
+robot:
+  name: "Clanker-1"
+  type: "differential_drive"
+  
+  # Physikalische Eigenschaften
+  dimensions:
+    length_cm: 25.0
+    width_cm: 20.0
+    height_cm: 15.0
+    weight_kg: 2.5
+    
+  # Antrieb
+  motors:
+    left:
+      port: 0
+      max_rpm: 120
+    right:
+      port: 1
+      max_rpm: 120
+      
+  # Sensoren
+  sensors:
+    ultrasonic:
+      ports: [0, 1]
+      max_range_cm: 200
+    infrared:
+      ports: [2, 3]
+    gyroscope:
+      port: 4
+      
+  # Greifer
+  gripper:
+    servo_port: 0
+    max_opening_cm: 8.0
