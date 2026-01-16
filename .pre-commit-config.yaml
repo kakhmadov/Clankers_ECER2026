@@ -1,0 +1,37 @@
+# .pre-commit-config.yaml
+# Diese Datei definiert automatische Prüfungen vor jedem Git-Commit
+
+repos:
+  # Grundlegende Git-Prüfungen
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace      # Entfernt Leerzeichen am Zeilenende
+      - id: end-of-file-fixer        # Fügt neue Zeile am Dateiende hinzu
+      - id: check-yaml               # Prüft YAML-Syntax
+      - id: check-added-large-files  # Verhindert große Dateien (>500KB)
+      - id: check-merge-conflict     # Prüft auf Merge-Konflikte
+
+  # Python Code Formatierung
+  - repo: https://github.com/psf/black
+    rev: 23.11.0
+    hooks:
+      - id: black
+        language_version: python3
+        # Formatiert Code automatisch einheitlich
+
+  # Python Linter (Fehlerprüfung)
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
+        args: [--max-line-length=88, --extend-ignore=E203]
+        # Prüft auf Code-Stilfehler
+
+  # Type Checking (optionale Typ-Prüfung)
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.6.1
+    hooks:
+      - id: mypy
+        args: [--ignore-missing-imports]
+        # Prüft Typ-Konsistenz
